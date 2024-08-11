@@ -121,6 +121,7 @@ train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True
 val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
 
 
+# Can be changed to determine the device to use in the training
 device = torch.device("mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu")
 model = BERTClassifier(bert_model_name, num_classes).to(device)
 
