@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
 import pandas as pd
 
-
+# Function to load the IMDB dataset 
 def load_imdb_data(data_file):
     df = pd.read_csv(data_file)
     texts = df['review'].tolist()
@@ -64,6 +64,8 @@ class BERTClassifier(nn.Module):
         logits = self.fc(x)
         return logits
 
+
+# Function to train the model 
 def train(model, data_loader, optimizer, scheduler, device):
     model.train()
     for batch in data_loader:
@@ -77,6 +79,7 @@ def train(model, data_loader, optimizer, scheduler, device):
         optimizer.step()
         scheduler.step()
 
+# Function to evaluate the model 
 def evaluate(model, data_loader, device):
     model.eval()
     predictions = []
@@ -92,6 +95,7 @@ def evaluate(model, data_loader, device):
             actual_labels.extend(labels.cpu().tolist())
     return accuracy_score(actual_labels, predictions), classification_report(actual_labels, predictions)
 
+# Function to predict the sentiment of a text
 def predict_sentiment(text, model, tokenizer, device, max_length=128):
     model.eval()
     encoding = tokenizer(text, return_tensors='pt', max_length=max_length, padding='max_length', truncation=True)
@@ -103,7 +107,8 @@ def predict_sentiment(text, model, tokenizer, device, max_length=128):
         _, preds = torch.max(outputs, dim=1)
     return "positive" if preds.item() == 1 else "negative"
 
-# Set up parameters
+# Set-up parameters
+# Can be changed to determine the model and training metrics
 bert_model_name = 'bert-base-uncased'
 num_classes = 2
 max_length = 128
@@ -114,13 +119,14 @@ learning_rate = 2e-5
 
 train_texts, val_texts, train_labels, val_labels = train_test_split(texts, labels, test_size=0.2, random_state=42)
 
+# Tokenize the texts
 tokenizer = BertTokenizer.from_pretrained(bert_model_name)
 train_dataset = TextClassificationDataset(train_texts, train_labels, tokenizer, max_length)
 val_dataset = TextClassificationDataset(val_texts, val_labels, tokenizer, max_length)
 train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 val_dataloader = DataLoader(val_dataset, batch_size=batch_size)
 
-
+# Device type
 # Can be changed to determine the device to use in the training
 device = torch.device("mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu")
 model = BERTClassifier(bert_model_name, num_classes).to(device)
