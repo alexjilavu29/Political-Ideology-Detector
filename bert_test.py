@@ -21,6 +21,7 @@ texts, labels = load_imdb_data(data_file)
 #print(texts[:5])
 #print(labels[:5])
 
+# Define the dataset class and the BERT classifier model
 class TextClassificationDataset(Dataset):
     def __init__(self, texts, labels, tokenizer, max_length):
         self.texts = texts
