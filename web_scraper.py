@@ -8,6 +8,7 @@ import random
 # Ensure the directory exists
 os.makedirs('data', exist_ok=True)
 
+# List of URLs to scrape
 urls = [
     'https://www.rsbnetwork.com/news/trump-celebrates-big-night-in-america-perfect-endorsement-score-in-latest-primary-wins/',
     'https://www.rsbnetwork.com/news/president-trump-to-do-major-interview-with-elon-musk/',
