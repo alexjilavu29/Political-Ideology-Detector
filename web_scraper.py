@@ -30,6 +30,7 @@ with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
 
     for url in urls:
         try:
+            # Headers to mimic a browser visit
             headers = {
                 'User-Agent': random.choice(user_agents),
                 'Accept-Language': 'en-US,en;q=0.9',
