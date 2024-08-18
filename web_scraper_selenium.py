@@ -1,11 +1,17 @@
 import csv
 import os
 import time
+import random
+import requests
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 # Ensure the directory exists
 os.makedirs('data', exist_ok=True)
@@ -34,6 +40,16 @@ with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
         try:
             driver.get(url)
             time.sleep(3)  # Allow some time for the page to load
+
+            # Wait for the title element to be present
+            title_element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'h1.post-title.single-post-title.entry-title'))
+            )
+
+            # Wait for the article element to be present
+            article_element = WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'div.post-entry.blockquote-style-1'))
+            )
 
             title_element = driver.find_element(By.CSS_SELECTOR, 'h1.post-title.single-post-title.entry-title')
             article_element = driver.find_element(By.CSS_SELECTOR, 'div.post-entry.blockquote-style-1')
