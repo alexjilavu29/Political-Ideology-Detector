@@ -43,16 +43,16 @@ with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
 
             # Wait for the title element to be present
             title_element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, 'h1.post-title.single-post-title.entry-title'))
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'h1.post-title'))
             )
 
             # Wait for the article element to be present
             article_element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, 'div.post-entry.blockquote-style-1'))
+                EC.presence_of_element_located((By.CSS_SELECTOR, 'div.post-entry'))
             )
 
-            title_element = driver.find_element(By.CSS_SELECTOR, 'h1.post-title.single-post-title.entry-title')
-            article_element = driver.find_element(By.CSS_SELECTOR, 'div.post-entry.blockquote-style-1')
+            title_element = driver.find_element(By.CSS_SELECTOR, 'h1.post-title')
+            article_element = driver.find_element(By.CSS_SELECTOR, 'div.post-entry')
 
             title = title_element.text if title_element else 'Title not found'
             article_text = article_element.text if article_element else 'Article text not found'
