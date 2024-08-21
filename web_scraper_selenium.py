@@ -3,6 +3,7 @@ import os
 import time
 import random
 import requests
+import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -30,7 +31,7 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 
 # Setup Chrome WebDriver
 service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=chrome_options)
+driver = uc.Chrome(service=service, options=chrome_options)
 
 with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
@@ -41,9 +42,11 @@ with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
             driver.get(url)
             time.sleep(3)  # Allow some time for the page to load
 
+            print(driver.page_source)
+
             # Wait for the title element to be present
             title_element = WebDriverWait(driver, 10).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, 'h1.post-title'))
+                EC.presence_of_element_located((By.TAG_NAME, 'h1'))
             )
 
             # Wait for the article element to be present
@@ -51,7 +54,7 @@ with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
                 EC.presence_of_element_located((By.CSS_SELECTOR, 'div.post-entry'))
             )
 
-            title_element = driver.find_element(By.CSS_SELECTOR, 'h1.post-title')
+            title_element = driver.find_element(By.TAG_NAME, 'h1')
             article_element = driver.find_element(By.CSS_SELECTOR, 'div.post-entry')
 
             title = title_element.text if title_element else 'Title not found'
