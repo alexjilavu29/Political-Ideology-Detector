@@ -18,6 +18,7 @@ from selenium.webdriver.support import expected_conditions as EC
 os.makedirs('data', exist_ok=True)
 
 urls = [
+    'https://www.foxnews.com/politics/harris-website-still-lacks-policy-despite-walz-saying-americans-deserve-know-exactly-what-shed-do',
     'https://www.rsbnetwork.com/news/trump-celebrates-big-night-in-america-perfect-endorsement-score-in-latest-primary-wins/',
     'https://www.rsbnetwork.com/news/president-trump-to-do-major-interview-with-elon-musk/',
     'https://www.rsbnetwork.com/news/every-americans-nightmare-trump-campaign-responds-to-walz-as-vp-pick/'
@@ -31,7 +32,7 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 
 # Setup Chrome WebDriver
 service = Service(ChromeDriverManager().install())
-driver = uc.Chrome(service=service, options=chrome_options)
+driver = webdriver.Chrome(service=service, options=chrome_options)
 
 with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
