@@ -47,6 +47,7 @@ with open('data/articles.csv', mode='w', newline='', encoding='utf-8') as file:
             title_element = soup.find('h1', class_='post-title single-post-title entry-title')
             article_element = soup.find('div', class_='post-entry blockquote-style-1')
 
+            # Extract title and article text
             if title_element:
                 title = title_element.get_text()
             else:
